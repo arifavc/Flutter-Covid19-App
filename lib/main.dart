@@ -42,43 +42,26 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final controller = ScrollController();
-  double offset = 0;
 
-  
 
   List<String> countries = getAllCountries();
-  Country current;
-  String countryName;
-  
-  
- 
+  String current;
+
   @override
   void initState() {
     super.initState();
-    countryName = "Türkiye";
-
+    current = "Türkiye";
   }
 
-  
 
-
-
-  @override
-  void dispose() {
-    controller.dispose();
-    super.dispose();
-  }
-
-  
 
   @override
   Widget build(BuildContext context) {
     
     return Scaffold(
       body:FutureBuilder(
-                  future: fetchData(countryName),
-                  builder:(context,snapshot) {
+                  future: fetchData(current),
+                  builder:(BuildContext context,AsyncSnapshot snapshot) {
                     if (snapshot.connectionState == ConnectionState.done){
 
                     return  SingleChildScrollView(
@@ -90,7 +73,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 textTop: "",
                 textBottom: "#EvdeKal",
                 countryCode: snapshot.data.code,
-                offset: offset,
+                offset: 0,
               ),
               Container(
                 margin: EdgeInsets.symmetric(horizontal: 20),
@@ -120,9 +103,9 @@ class _HomeScreenState extends State<HomeScreen> {
                             child: Text(country), 
                           );
                         }).toList(),
-                        onChanged: (country)  {
+                        onChanged: (value)  {
                           setState((){
-                         this.countryName = country;
+                         this.current = value;
                           });
                         },
                       ),
